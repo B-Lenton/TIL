@@ -13,6 +13,15 @@ class Profile(models.Model):
         related_name = "profile"
     )
     image = ImageField(upload_to='profiles')
+    
+    # # added this morning (10/11/21) using stack overflow answer on phone - Django 1.4 Creating an Edit User Profile Account Settings View:
+    # birthdate = models.DateField(blank=False)
+    # gender = models.CharField(max_length=1, choices=GENDER_CHOICE, null=True)
+
+    # def __unicode__(self):
+    #     # TODO: stopped here...
+    #     pass
+
 # every profile should be called self.user.username (use its username)...
     def __str__(self):
         return self.user.username
@@ -23,4 +32,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     # Create a new Profile object when a Django User is created
     if created:
         Profile.objects.create(user=instance)
-        
+
+
+# class Account(Profile):
+    

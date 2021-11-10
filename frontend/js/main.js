@@ -65,3 +65,34 @@ $(document).on("click", ".js-toggle-modal", function(e) {
         }
     });
 })
+.on("click", ".js-follow", function(e) {
+    e.preventDefault();
+    const action = $(this).attr("data-action");
+
+    $.ajax({
+        type: 'POST',
+        // go to this url (can now be changed in urls on django backend and our javascript won't mind)
+        url: $(this).data("url"),
+        // makes text accessible on the backend
+        data: {
+            // the action is either follow or unfollow (this syntax, rather than .data("action") 
+            // stops caching - allows for follow/unfollow etc)
+            action: action,
+            // username will be whatever it is on that page
+            username: $(this).data("username"),
+        },
+        // on success, return some html
+        success: (data) => {
+            $(".js-follow-text").text(data.wording)
+            if(action == "follow") {
+                $(this).attr("data-action", "unfollow")
+            } else {
+                $(this).attr("data-action", "follow")
+            }
+        },
+        error: (error) => {
+            console.warn(error)
+        }
+    });
+
+})
