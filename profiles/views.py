@@ -1,11 +1,17 @@
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseBadRequest
 from django.views.generic import DetailView, View
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.urls import reverse_lazy
 
 from feed.models import Post
 from followers.models import Follower
+# from profiles.forms import AccountForm
+from profiles.models import User
+
 
 class ProfileDetailView(DetailView):
     http_method_names = ["get"]
@@ -67,3 +73,74 @@ class FollowView(LoginRequiredMixin, View):
             'success': True,
             "wording": "Unfollow" if data["action"] == "follow" else "Follow"
         })
+
+
+class ManageUserView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    http_method_names = ["get", "post"]
+    template_name = "profiles/manageprofile.html"
+    model = User
+    context_object_name = "user"
+    slug_field = "username"
+    slug_url_kwarg = "username"
+    success_url = "../../{username}/profile"
+    success_message = "Your profile has been successfully updated"
+    fields = ["username", "first_name", "last_name", "email"]
+
+    if http_method_names == "POST":
+
+        def dispatch(self, request, *args, **kwargs):
+            self.request = request
+            return super().dispatch(self.request, *args, **kwargs)
+
+        def form_valid(self, form):
+            # This method is called when valid form data has been POSTed.
+            # It should return an HttpResponse.
+            obj = form.save(commit=False)
+            form.send_email()
+            form.instance.created_by = self.request.user
+            return super().form_valid(form)
+
+        def get_success_message(self, cleaned_data):
+            return self.get_success_message % dict(
+                cleaned_data,
+                calculated_field=self.object.calculated_field,
+            )
+
+        def get_success_url(self):
+            return reverse_lazy("detail", kwargs={"username": self.request.user.username})
+
+
+
+
+
+
+
+
+
+
+'''
+class AccountFormView(FormView):
+    template_name = "account.html"
+    form_class = AccountForm
+    success_url = "/thanks"
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.send_email()
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+
+class AccountCreateView(CreateView):
+    model = User
+    fields = ["name"]
+
+class AccountUpdateView(UpdateView):
+    model = User
+    fields = ["name"]
+
+class AccountDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy("user-list")
+'''

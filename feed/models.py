@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Post(models.Model):
@@ -12,3 +13,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text[0:100]
+
+
+'''
+class User(models.Model):
+    name = models.CharField(max_length=240)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse("user-detail", kwargs={"pk": self.pk})
+'''

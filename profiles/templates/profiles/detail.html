@@ -34,9 +34,11 @@
                 </div>
             {% endif %}
         {% else %}
-            <div class="rounded-full mt-3 text-sm border-2 border-indigo-600 bg-white shadow-xl">
-                Login to follow this user
-            </div>
+            <a href="{% url 'account_login' %}">
+                <div class="rounded-full mt-3 text-sm border-2 border-indigo-600 bg-white shadow-xl">
+                    Login to follow this user
+                </div>
+            </a>
         {% endif %}
         <!-- <p class="mt-2 font-sans font-light text-white">{{ user.bio }}</p> -->
     </div>

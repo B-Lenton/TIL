@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}Manage ({{ user.username }}){% endblock %}
+
+{% block body %}
+
+    <!-- Tailwind component -->
+    <!-- TODO: Create EditView so users an actually update information -->
+
+    <div class="h-full">
+    
+        <div class="border-b-2 block md:flex">
+    
+            <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
+                <div class="flex justify-between">
+                    <span class="text-xl font-semibold block">{{ user.first_name }} {{ user.last_name }}</span>
+                    <a href="#" class="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800">Edit</a>
+                </div>
+                <br />
+                <span class="text-gray-600 text-sm">This information is secret so be careful</span>
+                <div id="showImage" class="max-w-xs w-32 items-center w-full p-8 mx-2 flex justify-center">
+                    {% thumbnail user.profile.image "300x300" crop="center" as im %}
+                        <img src="{{ im.url }}" class="border-solid border-indigo-500 border-2">		
+                    {% endthumbnail %}
+                </div>
+            </div>
+            
+            <div class="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
+                <div class="rounded shadow p-6">
+                    <div class="pb-6">
+                        <label for="username" class="font-semibold text-gray-700 block pb-1">Username</label>
+                        <div class="flex">
+                            <form action="/username/" method="post">
+                                <input id="username" class="border-1 rounded-r px-4 py-2 w-2/3 inline inline-flex" type="text" name="your_name" value="{{ user.username }}" />
+                                <input type="submit" value="Update" class="text-white font-bold bg-indigo-500 rounded ml-3 p-1 inline inline-flex w-1/5">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="pb-6">
+                        <label for="email" class="font-semibold text-gray-700 block pb-1">Email</label>
+                        <div class="flex">
+                            <form action="/email/" method="post">
+                                <input id="email" class="border-1 rounded-r px-4 py-2 w-2/3 inline inline-flex" type="email" value="{{ user.email }}" />
+                                <input type="submit" value="Update" class="text-white font-bold bg-indigo-500 rounded ml-3 p-1 inline inline-flex w-1/5">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="pb-6">
+                        <label for="first_name" class="font-semibold text-gray-700 block pb-1">First name</label>
+                        <div class="flex">
+                            <form action="/first-name/" method="post">
+                                <input id="first_name" class="border-1 rounded-r px-4 py-2 w-2/3 inline inline-flex" type="text" value="{{ user.first_name }}" />
+                                <input type="submit" value="Update" class="text-white font-bold bg-indigo-500 rounded ml-3 p-1 inline inline-flex w-1/5">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="pb-4">
+                        <label for="last_name" class="font-semibold text-gray-700 block pb-1">Surname</label>
+                        <div class="flex">
+                            <form action="/last-name/" method="post">
+                                <input id="last_name" class="border-1 rounded-r px-4 py-2 w-2/3 inline inline-flex" type="text" value="{{ user.last_name }}" />
+                                <input type="submit" value="Update" class="text-white font-bold bg-indigo-500 rounded ml-3 p-1 inline inline-flex w-1/5">
+                            </form>
+                        </div>
+                    </div>
+                    <span class="text-gray-600 pt-4 block opacity-70">Personal information</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock body %}
+
+
