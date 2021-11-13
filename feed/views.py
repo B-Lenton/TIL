@@ -39,6 +39,9 @@ class PostDetailView(DetailView):
     context_object_name = "post"
 
 
+'''
+API View (?)
+'''
 class CreateNewPost(LoginRequiredMixin, CreateView):
     model = Post
     template_name = "feed/create.html"

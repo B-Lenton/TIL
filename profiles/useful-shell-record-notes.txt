@@ -1,0 +1,72 @@
+(InteractiveConsole)
+>>> from profiles.models import Profile
+>>> from profiles.api.serializers import AccountSerializer
+>>> from rest_framework.renderers import JSONRenderer
+>>> from rest_framework.parsers import JSONParser
+>>> profile = Profile(username="Banjamin")
+>>> profile.save()
+>>> profile = Profile(username="Bonjin")
+>>> serializer = AccountSerializer(profile)
+>>> serializer.data
+{'username': 'Bonjin', 'image': None, 'first_name': '', 'last_name': '', 'email': ''}
+>>> profile1 = Profile(username="Benjex", first_name="Ben", last_name="Lenton", email="*********@*****.com")
+>>> serializer = AccountSerializer(profile1)>>> serializer.data{'username': 'Benjex', 'image': None, 'first_name': 'Ben', 'last_name': 'Lenton', 'email': 'benlenton@gmail.com'}
+>>> content = JSONRenderer().render(serializer.d
+serializer.data
+serializer.default(
+serializer.default_empty_html(
+serializer.default_error_messages
+serializer.default_validators
+>>> content = JSONRenderer().render(serializer.data)
+>>> content
+b'{"username":"Benjex","image":null,"first_name":"Ben","last_name":"Lenton","email":"*********@*****.com"}'
+>>> import io
+>>> stream = io.BytesIO(content)
+>>> data = JSONParser().parse(stream)
+>>> serializer = AccountSerializer(data=data)
+>>> serializer.is_valid()
+False
+>>> serializer.validated_data
+{}
+>>> serializer = AccountSerializer(Profile.objects.all(), many=True)
+>>> serializer.data
+[OrderedDict([('username', '1'), ('image', '/media/profiles/******-******.jpeg'), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', '/media/profiles/******-******.jpeg'), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', None), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', None), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', None), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', '/media/profiles/******-******.jpeg'), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', '1'), ('image', None), ('first_name', '1'), ('last_name', '1'), ('email', '1')]), OrderedDict([('username', 'Banjamin'), ('image', None), ('first_name', ''), ('last_name', ''), ('email', '')])]
+>>> from profiles.api.serializers import AccountSerializer
+>>> serializer = AccountSerializer()
+>>> print(repr(serializer))
+AccountSerializer():
+    username = CharField(max_length=200)
+    image = ImageField()
+    first_name = CharField(max_length=200)
+    last_name = CharField(max_length=200)
+    email = EmailField()
+    password = CharField(help_text='Leave empty if no change needed', required=True, style={'input_type': 'password', 'placeholder': 'Password'}, write_only=True)
+>>> 
+now exiting InteractiveConsole...
+(Django201) ben@ben-iMac:~/Desktop/UDEMY_Fullstack_Course/Django201$ python manage.py shell
+Python 3.9.5 (default, May 19 2021, 11:32:47) 
+[GCC 9.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from profiles.api.serializers import AccountSerializer
+t(repr(serializer))>>> >>> serializer = AccountSerializer()
+  File "<console>", line 1
+    >>> serializer = AccountSerializer()
+    ^
+SyntaxError: invalid syntax
+>>> from profiles.api.serializers import AccountSerializer
+>>> >>> serializer = AccountSerializer()
+  File "<console>", line 1
+    >>> serializer = AccountSerializer()
+    ^
+SyntaxError: invalid syntax
+>>> serializer = AccountSerializer()
+>>> print(repr(serializer))
+AccountSerializer():
+    username = CharField(max_length=150)
+    image = ImageField(max_length=100)
+    first_name = CharField(max_length=150)
+    last_name = CharField(max_length=150)
+    email = EmailField(max_length=254)
+    password = CharField(max_length=400)
+>>> 

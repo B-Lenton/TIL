@@ -12,7 +12,7 @@ class AccountForm(forms.Form):
     bio = forms.CharField(widget=forms.Textarea, max_length=240)
 
     def send_email(self):
-        # send email using the self.leaned_data dictionary
+        # send email using the self.cleaned_data dictionary
         pass
 '''
 
@@ -26,13 +26,35 @@ class PostForm(forms.Form):
     text = forms.CharField()
     image = forms.FileField()
 
-class UserUpdateForm(forms.Form):
+
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = [['username', 'last_name', 'first_name', 'email']]
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
 
-class ProfileUpdateForm(forms.Form):
-    
-    class Meta:
-        model = Profile
-        fields = ['image']
+
+# class UserUpdateForm(forms.Form):
+#     password = forms.CharField(widget=forms.PasswordInput())
+#     confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+#     class Meta:
+#         model = User
+#         fields = [['username', 'last_name', 'first_name', 'email', 'password']]
+
+#     def clean(self):
+#         cleaned_data = super(UserUpdateForm, self).clean()
+#         password = cleaned_data.get("password")
+#         confirm_password = cleaned_data.get("confirm_password")
+
+#         if password != confirm_password:
+#             self.add_error("confirm_password", "Password does not match")
+#         return cleaned_data
+
+
+
+# class ProfileUpdateForm(forms.Form):
+#     class Meta:
+#         model = Profile
+#         fields = ['image']

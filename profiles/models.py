@@ -10,18 +10,22 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name = "profile"
+        related_name = "profile",
+        null=True, 
+        blank=True,
     )
     image = ImageField(upload_to='profiles')
+    username = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    password = models.CharField(max_length=400)
+
+    # class Meta:
+    #     model = User
+    #     fields = ['username', 'image', 'first_name', 'last_name', 'email', 'password']
+
     
-    # # added this morning (10/11/21) using stack overflow answer on phone - Django 1.4 Creating an Edit User Profile Account Settings View:
-    # birthdate = models.DateField(blank=False)
-    # gender = models.CharField(max_length=1, choices=GENDER_CHOICE, null=True)
-
-    # def __unicode__(self):
-    #     # TODO: stopped here...
-    #     pass
-
 # every profile should be called self.user.username (use its username)...
     def __str__(self):
         return self.user.username

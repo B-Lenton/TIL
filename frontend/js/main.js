@@ -86,8 +86,10 @@ $(document).on("click", ".js-toggle-modal", function(e) {
             $(".js-follow-text").text(data.wording)
             if(action == "follow") {
                 $(this).attr("data-action", "unfollow")
+                // TODO: $(".js-follower-count").html() = $(".js-follower-count").html() + 1
             } else {
                 $(this).attr("data-action", "follow")
+                // TODO: $(".js-follower-count").html() = $(".js-follower-count").html() - 1
             }
         },
         error: (error) => {
