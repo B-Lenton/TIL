@@ -9,6 +9,8 @@
             {% for post in posts %}
                 {% include "includes/post.html" with post=post show_detail_link=True%}
             {% endfor %}
+        {% else %}
+            No posts are available.
         {% endif %}
     </div>
 {% endblock %}
