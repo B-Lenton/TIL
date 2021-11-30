@@ -26,11 +26,11 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('username', 'image', 'first_name', 'last_name', 'email', 'password')
+        fields = ('username', 'image', 'first_name', 'last_name', 'email')
 
     def create(self, validated_data):
         user = Profile.objects.create(**validated_data)
-        user.set_password(validated_data['password'])
+        # user.set_password(validated_data['password'])
         user.save()
         return user
 
@@ -40,17 +40,17 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
-        instance.password = validated_data.get('password', instance.password)
+        # instance.password = validated_data.get('password', instance.password)
         instance.save()
 
-        def update(self, instance, validated_data):
-            user = update(instance, validated_data)
-            try:
-                user.set_password(validated_data['password'])
-            except KeyError:
-                pass
-            user.save()
-            return user
+        # def update(self, instance, validated_data):
+        #     user = update(instance, validated_data)
+        #     try:
+        #         user.set_password(validated_data['password'])
+        #     except KeyError:
+        #         pass
+        #     user.save()
+        #     return user
         
         return instance
         

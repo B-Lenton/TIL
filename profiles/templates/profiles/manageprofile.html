@@ -8,81 +8,90 @@
     <!-- Tailwind component -->
     <!-- TODO: Create EditView so users an actually update information -->
 
-    <div class="h-full">
-    
-        <div class="border-b-2 block md:flex">
-    
-            <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
-                <div class="flex justify-between">
-                    <span class="text-xl font-semibold block">{{ user.first_name }} {{ user.last_name }}</span>
-                    <a href="#" class="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800">Edit</a>
-                </div>
-                <div id="showImage" class="max-w-xs w-32 items-center w-full p-8 mx-2 flex justify-center">
-                    {% thumbnail user.profile.image "300x300" crop="center" as im %}
-                        <img src="{{ im.url }}" class="">		
-                    {% endthumbnail %}
-                </div>
-            </div>
+    {% if request.user.is_authenticated %}
+        {% if request.user == user %}
+            <div class="h-full">
             
-            <div class="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
-                <div class="rounded shadow p-6">
-                    <div class="pb-6">
-                        <label for="username" class="font-semibold text-gray-700 block pb-1">Username</label>
-                        <div class="flex">
-                            <form method="post">{% csrf_token %}
-                                <input id="username" class="border-1 rounded-r px-4 py-2" type="text, submit" name="your_name" value="{{ user.username }}" />
-                            </form>
+                <div class="border-b-2 block md:flex">
+            
+                    <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
+                        <div class="flex justify-between">
+                            <span class="text-xl font-semibold block">{{ user.first_name }} {{ user.last_name }}</span>
+                            <a href="#" class="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800">Edit</a>
+                        </div>
+                        <div id="showImage" class="max-w-xs w-32 items-center w-full p-8 mx-2 flex justify-center">
+                            {% thumbnail user.profile.image "300x300" crop="center" as im %}
+                                <img src="{{ im.url }}" class="">		
+                            {% endthumbnail %}
                         </div>
                     </div>
-                    <div class="pb-6">
-                        <label for="email" class="font-semibold text-gray-700 block pb-1">Email</label>
-                        <div class="flex">
-                            <form method="post">
-                                <input id="email" class="border-1 rounded-r px-4 py-2" type="email, submit" value="{{ user.email }}" />
-                            </form>
+                    
+                    <div class="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
+                        <div class="rounded shadow p-6">
+                            <div class="pb-6">
+                                <label for="username" class="font-semibold text-gray-700 block pb-1">Username</label>
+                                <div class="flex">
+                                    <form method="post">{% csrf_token %}
+                                        <input id="username" class="border-1 rounded-r px-4 py-2" type="text, submit" name="your_name" value="{{ user.username }}" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="pb-6">
+                                <label for="email" class="font-semibold text-gray-700 block pb-1">Email</label>
+                                <div class="flex">
+                                    <form method="post">
+                                        <input id="email" class="border-1 rounded-r px-4 py-2" type="email, submit" value="{{ user.email }}" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="pb-6">
+                                <label for="first_name" class="font-semibold text-gray-700 block pb-1">First name</label>
+                                <div class="flex">
+                                    <form method="post">
+                                        <input id="first_name" class="border-1 rounded-r px-4 py-2" type="text, submit" value="{{ user.first_name }}" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="pb-6">
+                                <label for="last_name" class="font-semibold text-gray-700 block pb-1">Surname</label>
+                                <div class="flex">
+                                    <form method="post">
+                                        <input id="last_name" class="border-1 rounded-r px-4 py-2" type="text, submit" value="{{ user.last_name }}" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="pb-6">
+                                <label for="password" class="font-semibold text-gray-700 block pb-1">Password</label>
+                                <div class="flex">
+                                    <form method="post">
+                                        <input id="password" class="border-1 rounded-r px-4 py-2" type="password" type="submit" value="EnterPassword" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="pb-4">
+                                <label for="confirm-password" class="font-semibold text-gray-700 block pb-1">Confirm Password</label>
+                                <div class="flex">
+                                    <form method="post">
+                                        <input id="password" class="border-1 rounded-r px-4 py-2" type="password" type="submit" value="EnterPassword" />
+                                    </form>
+                                </div>
+                            </div>
+                            <a href="{% url 'profiles:edit' user.username %}" class="bg-white rounded-xl font-bold text-indigo-600 border border-indigo-500 text-center px-2 py-1 transition duration-300 ease-in-out hover:bg-indigo-500 hover:text-white mr-6 inline-flex">
+                                Update
+                            </a>
+                            <span class="text-gray-600 pt-4 block opacity-70">Personal information</span>
                         </div>
                     </div>
-                    <div class="pb-6">
-                        <label for="first_name" class="font-semibold text-gray-700 block pb-1">First name</label>
-                        <div class="flex">
-                            <form method="post">
-                                <input id="first_name" class="border-1 rounded-r px-4 py-2" type="text, submit" value="{{ user.first_name }}" />
-                            </form>
-                        </div>
-                    </div>
-                    <div class="pb-6">
-                        <label for="last_name" class="font-semibold text-gray-700 block pb-1">Surname</label>
-                        <div class="flex">
-                            <form method="post">
-                                <input id="last_name" class="border-1 rounded-r px-4 py-2" type="text, submit" value="{{ user.last_name }}" />
-                            </form>
-                        </div>
-                    </div>
-                    <div class="pb-6">
-                        <label for="password" class="font-semibold text-gray-700 block pb-1">Password</label>
-                        <div class="flex">
-                            <form method="post">
-                                <input id="password" class="border-1 rounded-r px-4 py-2" type="password" type="submit" value="EnterPassword" />
-                            </form>
-                        </div>
-                    </div>
-                    <div class="pb-4">
-                        <label for="confirm-password" class="font-semibold text-gray-700 block pb-1">Confirm Password</label>
-                        <div class="flex">
-                            <form method="post">
-                                <input id="password" class="border-1 rounded-r px-4 py-2" type="password" type="submit" value="EnterPassword" />
-                            </form>
-                        </div>
-                    </div>
-                    <a href="{% url 'profiles:manage' user.username %}" class="bg-white rounded-xl font-bold text-indigo-600 border border-indigo-500 text-center px-2 py-1 transition duration-300 ease-in-out hover:bg-indigo-500 hover:text-white mr-6 inline-flex">
-                        Update
-                    </a>
-                    <span class="text-gray-600 pt-4 block opacity-70">Personal information</span>
                 </div>
-            </div>
-        </div>
 
-    </div>
+            </div>
+        {% else %}
+            <div>
+                <p>Access denied</p>
+            </div>
+        {% endif %}
+    {% endif %}
+    
 
 {% endblock body %}
 
